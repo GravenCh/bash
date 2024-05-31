@@ -5,7 +5,7 @@ def check():
     try:
         import psutil
     except:
-        os.system('pip3 install psutil')
+        os.system('apt install python3-psutil')
     try:
         import socket
     except:
@@ -140,7 +140,7 @@ def get_delay():
     while True:
         if status==1:
             return
-        tmp=os.popen("ping 183.3.226.35 -c 50 -i 0.2 -w 10").read()
+        tmp=os.popen("ping 223.5.5.5 -c 50 -i 0.2 -w 10").read()
         delay_flag=re.compile(r'.*/(.*)/.*/.*')
         Pocketlossrate_flag=re.compile(r' ([0-9]*\.*[0-9]*)% ')
         try:
