@@ -134,18 +134,16 @@ def get_netflow():
 # 获取延迟和丢包率
 def get_delay():
     global config
-    while config["status"] == 0:
-        try:
-            tmp = subprocess.check_output("ping 139.155.183.218 -c 50 -i 0.2 -w 10", shell=True, text=True)
-            delay_flag = re.compile(r'.*/(.*)/.*/.*')
-            Pocketlossrate_flag = re.compile(r' ([0-9]*\.*[0-9]*)% ')
-            config["delay"] = str(int(float(re.search(delay_flag, tmp).group(1)))) if delay_flag else "error"
-            config["Pocketlossrate"] = str(int(float(re.search(Pocketlossrate_flag, tmp).group(1)))) + " %" if Pocketlossrate_flag else "error"
-        except Exception as e:
-            log_error(f"获取延迟或丢包率失败: {e}")
-            config["delay"] = "error"
-            config["Pocketlossrate"] = "error"
-        time.sleep(10)  # 防止过于频繁的请求
+    try:
+        tmp = subprocess.check_output("ping 139.155.183.218 -c 10 -i 0.1", shell=True, text=True)
+        delay_flag = re.compile(r'.*/(.*)/.*/.*')
+        Pocketlossrate_flag = re.compile(r' ([0-9]*\.*[0-9]*)% ')
+        config["delay"] = str(int(float(re.search(delay_flag, tmp).group(1)))) if delay_flag else "error"
+        config["Pocketlossrate"] = str(int(float(re.search(Pocketlossrate_flag, tmp).group(1)))) + " %" if Pocketlossrate_flag else "error"
+    except Exception as e:
+        log_error(f"获取延迟或丢包率失败: {e}")
+        config["delay"] = "error"
+        config["Pocketlossrate"] = "error"
 
 # 获取 CPU 信息
 def get_cpuinfo():
@@ -273,5 +271,6 @@ if __name__ == "__main__":
     while True:
         try:
             func()
+            get_delay()
         except Exception as e:
             log_error(f"执行 func 时发生错误: {e}")
