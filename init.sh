@@ -2,7 +2,7 @@
 
 apt update && apt upgrade -y && apt autoremove -y
 apt install net-tools htop vim curl python3-pip sysstat linux-modules-extra-$(uname -r) -y
-wget -P /home https://raw.githubusercontent.com/MateorChan/bash/main/report.py
+wget -P /home https://raw.githubusercontent.com/GravenCh/bash/refs/heads/main/report.py
 nohup python3 /home/report.py -p=a63f5045-8a43-4f2f-bbca-cde1d561a5eb -a=https://monitor.imateor.com/api.php  > /dev/null &
 cat > /etc/systemd/system/rc-local.service <<EOF
 [Unit]
